@@ -1,0 +1,30 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 60px;
+}
+
+.bulb {
+    width: 120px;
+    height: 120px;
+    margin: 30px auto;
+    border-radius: 50%;
+    background-color: #444;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.bulb.on {
+    background-color: yellow;
+    box-shadow: 0 0 30px yellow;
+}
+
+.bulb.off {
+    background-color: #444;
+    box-shadow: none;
+}
+
+button {
+    padding: 12px 25px;
+    font-size: 16px;
+    cursor: pointer;
+}
