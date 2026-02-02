@@ -1,30 +1,394 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    margin-top: 60px;
+/* CSS Variables for theming and consistency */
+:root {
+    /* Color palette */
+    --color-primary: #2196F3;
+    --color-primary-dark: #1976D2;
+    --color-success: #4CAF50;
+    --color-danger: #F44336;
+    --color-warning: #FF9800;
+    
+    /* Light theme */
+    --bg-color: #f5f5f5;
+    --text-color: #333;
+    --card-bg: white;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --border-color: #e0e0e0;
+    
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-normal: 300ms ease;
+    --transition-slow: 500ms ease;
+    
+    /* Border radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 16px;
+    --radius-full: 9999px;
 }
 
-.bulb {
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #f0f0f0;
+        --card-bg: #2d2d2d;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        --border-color: #404040;
+    }
+}
+
+/* Reset and base styles */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background: linear-gradient(135deg, var(--bg-color) 0%, #e0e0e0 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-md);
+    transition: background-color var(--transition-normal);
+}
+
+/* Container */
+.container {
+    max-width: 600px;
+    width: 100%;
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+/* Header */
+.app-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+}
+
+.app-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.app-description {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    .app-description {
+        color: #aaa;
+    }
+}
+
+/* Bulb container */
+.bulb-container {
+    position: relative;
+    margin: var(--space-xl) auto;
+    width: 200px;
+    height: 300px;
+}
+
+.bulb-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* SVG Bulb */
+.bulb-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+.bulb-glass {
+    fill: #f5f5f5;
+    stroke: #e0e0e0;
+    stroke-width: 2;
+    transition: fill var(--transition-normal);
+}
+
+.bulb-glass.on {
+    fill: #FFF9C4;
+}
+
+.bulb-filament {
+    stroke: #757575;
+    stroke-width: 2;
+    transition: all var(--transition-normal);
+}
+
+.bulb-filament.on {
+    stroke: url(#bulb-filament);
+    stroke-width: 4;
+    filter: drop-shadow(0 0 8px #FF9800);
+}
+
+.filament-base {
+    fill: #9E9E9E;
+    transition: fill var(--transition-normal);
+}
+
+.filament-base.on {
+    fill: #FF9800;
+}
+
+.bulb-glow {
+    transition: opacity var(--transition-normal);
+}
+
+.bulb-glow.on {
+    opacity: 0.7;
+    animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.5;
+        r: 45;
+    }
+    100% {
+        opacity: 0.8;
+        r: 55;
+    }
+}
+
+.bulb-base {
+    fill: #795548;
+}
+
+.bulb-thread {
+    fill: #5D4037;
+}
+
+/* Fallback bulb (for browsers without SVG support) */
+.bulb-fallback {
+    display: none;
     width: 120px;
     height: 120px;
-    margin: 30px auto;
     border-radius: 50%;
-    background-color: #444;
-    transition: background-color 0.3s, box-shadow 0.3s;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #444 0%, #222 100%);
+    box-shadow: 
+        inset 0 8px 16px rgba(255,255,255,0.1),
+        inset 0 -8px 16px rgba(0,0,0,0.3),
+        0 4px 12px rgba(0,0,0,0.2);
+    position: relative;
+    transition: all var(--transition-normal);
 }
 
-.bulb.on {
-    background-color: yellow;
-    box-shadow: 0 0 30px yellow;
+.bulb-fallback.on {
+    background: linear-gradient(135deg, #FFEB3B 0%, #FFC107 100%);
+    box-shadow: 
+        0 0 40px #FFEB3B,
+        inset 0 8px 16px rgba(255,255,255,0.3),
+        inset 0 -8px 16px rgba(0,0,0,0.1);
 }
 
-.bulb.off {
-    background-color: #444;
-    box-shadow: none;
+/* Controls */
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    align-items: center;
 }
 
-button {
-    padding: 12px 25px;
-    font-size: 16px;
+.toggle-btn {
+    padding: var(--space-md) var(--space-xl);
+    font-size: 1.25rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+    color: white;
+    border: none;
+    border-radius: var(--radius-full);
     cursor: pointer;
+    transition: all var(--transition-normal);
+    min-width: 200px;
+    position: relative;
+    overflow: hidden;
+}
+
+.toggle-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+}
+
+.toggle-btn:focus {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+.toggle-btn:active {
+    transform: translateY(0);
+}
+
+.toggle-btn[aria-pressed="true"] {
+    background: linear-gradient(135deg, var(--color-warning) 0%, #F57C00 100%);
+}
+
+.btn-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+}
+
+.btn-icon {
+    font-size: 1.5rem;
+    transition: transform var(--transition-normal);
+}
+
+.toggle-btn[aria-pressed="true"] .btn-icon {
+    transform: rotate(30deg);
+}
+
+/* Brightness slider */
+.additional-controls {
+    width: 100%;
+    max-width: 300px;
+}
+
+.control-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-sm);
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.value-display {
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.slider {
+    width: 100%;
+    height: 8px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: linear-gradient(to right, #e0e0e0, var(--color-primary));
+    border-radius: var(--radius-full);
+    outline: none;
+    opacity: 0.7;
+    transition: opacity var(--transition-fast);
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--color-primary);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: all var(--transition-fast);
+}
+
+.slider::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+}
+
+.slider::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--color-primary);
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Footer */
+.app-footer {
+    margin-top: var(--space-xl);
+    text-align: center;
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border-color);
+}
+
+.keyboard-hint {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.keyboard-hint kbd {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    padding: 2px 6px;
+    font-family: monospace;
+    font-size: 0.85em;
+    box-shadow: 0 2px 0 var(--border-color);
+}
+
+/* Accessibility utilities */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus styles for keyboard navigation */
+:focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .bulb-glow.on {
+        animation: none;
+        opacity: 0.7;
+    }
+}
+
+/* Fallback detection */
+.no-svg .bulb-svg {
+    display: none;
+}
+
+.no-svg .bulb-fallback {
+    display: block;
 }
