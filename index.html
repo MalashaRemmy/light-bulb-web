@@ -3,98 +3,248 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Accessible light bulb simulator with visual feedback">
-    <title>Light Bulb Controller - Accessible Web App</title>
+    <meta name="description" content="SMART LED light bulb simulator with physical switch control">
+    <title>SMART LED Light Bulb Controller</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <main id="main-content" class="container" tabindex="-1">
-        <header class="app-header">
-            <h1 id="app-title" class="app-title">Light Bulb Controller</h1>
-            <p id="app-description" class="app-description">
-                Click the button below to toggle the light bulb ON and OFF. 
-                You can also use the spacebar when focused on the button.
-            </p>
+    <main class="container" role="main">
+        <header class="header">
+            <div class="branding">
+                <i class="fas fa-lightbulb logo"></i>
+                <h1 class="title">SMART A21 LED Home Light Bulb</h1>
+                <p class="subtitle">14W LED • Soft White • Medium Base</p>
+            </div>
+            
+            <div class="specs">
+                <div class="spec-item">
+                    <i class="fas fa-bolt"></i>
+                    <span>14W</span>
+                </div>
+                <div class="spec-item">
+                    <i class="fas fa-sun"></i>
+                    <span>2700K</span>
+                </div>
+                <div class="spec-item">
+                    <i class="fas fa-plug"></i>
+                    <span>E26</span>
+                </div>
+                <div class="spec-item">
+                    <i class="fas fa-clock"></i>
+                    <span>25,000 hrs</span>
+                </div>
+            </div>
         </header>
-        
-        <div class="bulb-container" aria-hidden="true">
-            <!-- Using SVG for better accessibility and theming -->
-            <div class="bulb-wrapper">
-                <svg class="bulb-svg" viewBox="0 0 100 150" role="img" aria-labelledby="bulb-status">
-                    <defs>
-                        <radialGradient id="bulb-glow-on" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stop-color="#FFEE58" stop-opacity="0.9"/>
-                            <stop offset="100%" stop-color="#FFEE58" stop-opacity="0"/>
-                        </radialGradient>
-                        <radialGradient id="bulb-filament" cx="50%" cy="50%" r="50%">
-                            <stop offset="0%" stop-color="#FF9800"/>
-                            <stop offset="100%" stop-color="#F57C00"/>
-                        </radialGradient>
-                    </defs>
-                    
-                    <!-- Bulb glass -->
-                    <circle class="bulb-glass" cx="50" cy="75" r="40" fill="#E0E0E0"/>
-                    
-                    <!-- Filament (changes with state) -->
-                    <path class="bulb-filament" d="M50,35 L50,65" stroke-width="3" stroke-linecap="round"/>
-                    <circle class="filament-base" cx="50" cy="65" r="4"/>
-                    
-                    <!-- Glow effect (separate element for animation) -->
-                    <circle class="bulb-glow" cx="50" cy="75" r="45" fill="url(#bulb-glow-on)" opacity="0"/>
-                    
-                    <!-- Bulb base -->
-                    <rect class="bulb-base" x="40" y="115" width="20" height="15" rx="3"/>
-                    <rect class="bulb-thread" x="42" y="110" width="16" height="5" rx="2"/>
-                </svg>
+
+        <div class="demo-area">
+            <!-- Light Socket -->
+            <div class="socket-container">
+                <div class="ceiling">
+                    <div class="ceiling-texture"></div>
+                    <div class="ceiling-shadow"></div>
+                </div>
                 
-                <!-- Fallback for browsers without SVG support -->
-                <div class="bulb-fallback" id="bulb-fallback" 
-                     role="img" 
-                     aria-labelledby="bulb-status">
+                <div class="socket" id="socket">
+                    <div class="socket-base">
+                        <div class="socket-threads"></div>
+                        <div class="socket-contact"></div>
+                    </div>
+                    <div class="socket-ring"></div>
+                </div>
+
+                <!-- Realistic LED Bulb -->
+                <div class="bulb-container" id="bulb-container">
+                    <!-- Bulb Glass -->
+                    <div class="bulb-glass" id="bulb-glass">
+                        <div class="bulb-interior">
+                            <!-- LED Array Simulation -->
+                            <div class="led-array">
+                                <div class="led led-1"></div>
+                                <div class="led led-2"></div>
+                                <div class="led led-3"></div>
+                                <div class="led led-4"></div>
+                                <div class="led led-5"></div>
+                                <div class="led led-6"></div>
+                            </div>
+                            
+                            <!-- LED Chips -->
+                            <div class="led-chips">
+                                <div class="chip-row">
+                                    <div class="chip"></div>
+                                    <div class="chip"></div>
+                                    <div class="chip"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Heat Sink Fins -->
+                            <div class="heat-sink">
+                                <div class="fin"></div>
+                                <div class="fin"></div>
+                                <div class="fin"></div>
+                                <div class="fin"></div>
+                                <div class="fin"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Bulb Base -->
+                    <div class="bulb-base">
+                        <div class="base-threads">
+                            <div class="thread"></div>
+                            <div class="thread"></div>
+                            <div class="thread"></div>
+                        </div>
+                        <div class="base-contact">
+                            <div class="contact-dot"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Glow Effect -->
+                    <div class="glow-effect" id="glow-effect"></div>
+                    
+                    <!-- Light Cast -->
+                    <div class="light-cast" id="light-cast"></div>
+                </div>
+            </div>
+
+            <!-- Physical Switch -->
+            <div class="switch-container">
+                <div class="switch-box">
+                    <div class="switch-label">
+                        <i class="fas fa-power-off"></i>
+                        <span>Power Switch</span>
+                    </div>
+                    
+                    <div class="physical-switch" id="physical-switch">
+                        <div class="switch-base">
+                            <div class="switch-toggle" id="switch-toggle">
+                                <div class="toggle-knob"></div>
+                            </div>
+                            <div class="switch-indicators">
+                                <div class="indicator on-indicator">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>ON</span>
+                                </div>
+                                <div class="indicator off-indicator active">
+                                    <i class="fas fa-times-circle"></i>
+                                    <span>OFF</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="switch-description">
+                        <p>Physical rocker switch with visual feedback</p>
+                    </div>
+                </div>
+
+                <!-- Brightness Control -->
+                <div class="brightness-control">
+                    <div class="control-header">
+                        <i class="fas fa-sliders-h"></i>
+                        <h3>Brightness Control</h3>
+                    </div>
+                    
+                    <div class="slider-container">
+                        <div class="slider-labels">
+                            <span class="slider-label">Dim</span>
+                            <span class="slider-value" id="brightness-value">50%</span>
+                            <span class="slider-label">Bright</span>
+                        </div>
+                        
+                        <input type="range" 
+                               id="brightness-slider" 
+                               class="slider" 
+                               min="10" 
+                               max="100" 
+                               value="50"
+                               aria-label="Light bulb brightness control">
+                        
+                        <div class="slider-ticks">
+                            <span class="tick"></span>
+                            <span class="tick"></span>
+                            <span class="tick"></span>
+                            <span class="tick"></span>
+                            <span class="tick"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="keyboard-hint">
+                        <i class="fas fa-keyboard"></i>
+                        <span>Use ← → arrow keys to adjust</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Panel -->
+        <div class="status-panel">
+            <div class="status-item" id="power-status">
+                <div class="status-icon">
+                    <i class="fas fa-plug"></i>
+                </div>
+                <div class="status-info">
+                    <span class="status-label">Power Status</span>
+                    <span class="status-value" id="status-value">OFF</span>
                 </div>
             </div>
             
-            <!-- Status indicator for screen readers -->
-            <div class="sr-only" id="bulb-status" aria-live="polite" aria-atomic="true">
-                Light bulb is OFF
+            <div class="status-item" id="energy-status">
+                <div class="status-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="status-info">
+                    <span class="status-label">Power Draw</span>
+                    <span class="status-value" id="power-value">0.0W</span>
+                </div>
+            </div>
+            
+            <div class="status-item" id="runtime-status">
+                <div class="status-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="status-info">
+                    <span class="status-label">Runtime</span>
+                    <span class="status-value" id="runtime-value">0:00</span>
+                </div>
+            </div>
+            
+            <div class="status-item" id="temp-status">
+                <div class="status-icon">
+                    <i class="fas fa-thermometer-half"></i>
+                </div>
+                <div class="status-info">
+                    <span class="status-label">Temperature</span>
+                    <span class="status-value" id="temp-value">72°F</span>
+                </div>
             </div>
         </div>
-        
+
+        <!-- Controls -->
         <div class="controls">
-            <button id="toggleBtn" 
-                    class="toggle-btn"
-                    aria-pressed="false"
-                    aria-label="Toggle light bulb"
-                    data-state="off">
-                <span class="btn-content">
-                    <span class="btn-icon" aria-hidden="true">💡</span>
-                    <span class="btn-text">Turn ON</span>
-                </span>
+            <button class="control-btn" id="toggle-btn" aria-label="Toggle light bulb">
+                <i class="fas fa-power-off"></i>
+                <span>Toggle Power</span>
             </button>
             
-            <div class="additional-controls">
-                <label for="brightness-slider" class="control-label">
-                    Brightness
-                    <span id="brightness-value" class="value-display">50%</span>
-                </label>
-                <input type="range" 
-                       id="brightness-slider" 
-                       class="slider"
-                       min="10" 
-                       max="100" 
-                       value="50"
-                       aria-label="Adjust bulb brightness">
-            </div>
+            <button class="control-btn secondary" id="auto-btn" aria-label="Auto cycle brightness">
+                <i class="fas fa-random"></i>
+                <span>Auto Cycle</span>
+            </button>
+            
+            <button class="control-btn secondary" id="reset-btn" aria-label="Reset to default">
+                <i class="fas fa-redo"></i>
+                <span>Reset</span>
+            </button>
         </div>
-        
-        <footer class="app-footer">
-            <p class="keyboard-hint">
-                <kbd>Space</kbd> or <kbd>Enter</kbd> to toggle • 
-                <kbd>←</kbd> <kbd>→</kbd> to adjust brightness
-            </p>
-        </footer>
+
+        <!-- Accessibility Announcement -->
+        <div class="sr-only" id="aria-announcement" aria-live="polite" aria-atomic="true">
+            Light bulb is off
+        </div>
     </main>
-    
+
     <script src="script.js"></script>
 </body>
 </html>
